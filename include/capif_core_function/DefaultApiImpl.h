@@ -20,7 +20,6 @@
 #ifndef DEFAULT_API_IMPL_H_
 #define DEFAULT_API_IMPL_H_
 
-#include <DefaultApi.h>
 #include <pistache/endpoint.h>
 #include <pistache/http.h>
 #include <pistache/router.h>
@@ -28,8 +27,9 @@
 #include <memory>
 #include <string>
 
-#include "ProblemDetails.h"
-#include "ServiceAPIDescription.h"
+#include "openapi/api/DefaultApi.h"
+#include "openapi/model/ProblemDetails.h"
+#include "openapi/model/ServiceAPIDescription.h"
 
 namespace org::openapitools::server::api {
 

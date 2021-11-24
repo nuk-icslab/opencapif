@@ -29,7 +29,7 @@ DefaultApiImpl::DefaultApiImpl(
 void DefaultApiImpl::apf_id_service_apis_get(
     const std::string &apfId, Pistache::Http::ResponseWriter &response) {
   std::string res;
-  res = "Get service API\n";
+  res = "Retrieve all published APIs\n";
   res += "apfId=" + apfId + "\n";
 
   response.send(Pistache::Http::Code::Ok, res);
@@ -39,7 +39,7 @@ void DefaultApiImpl::apf_id_service_apis_post(
     const ServiceAPIDescription &serviceAPIDescription,
     Pistache::Http::ResponseWriter &response) {
   std::string res;
-  res = "Post service API\n";
+  res = "Publish a new API\n";
   res += "apfId=" + apfId + "\n";
   res += "apiName=" + serviceAPIDescription.getApiName() + "\n";
 
@@ -49,7 +49,7 @@ void DefaultApiImpl::apf_id_service_apis_service_api_id_delete(
     const std::string &serviceApiId, const std::string &apfId,
     Pistache::Http::ResponseWriter &response) {
   std::string res;
-  res = "Delete service API\n";
+  res = "Unpublish a published service API\n";
   res += "apfId=" + apfId + "\n";
   res += "serviceApiId=" + serviceApiId + "\n";
 
@@ -59,7 +59,7 @@ void DefaultApiImpl::apf_id_service_apis_service_api_id_get(
     const std::string &serviceApiId, const std::string &apfId,
     Pistache::Http::ResponseWriter &response) {
   std::string res;
-  res = "Get service API\n";
+  res = "Retrieve a published service API\n";
   res += "apfId=" + apfId + "\n";
   res += "serviceApiId=" + serviceApiId + "\n";
   response.send(Pistache::Http::Code::Ok, res);
@@ -69,7 +69,7 @@ void DefaultApiImpl::apf_id_service_apis_service_api_id_put(
     const ServiceAPIDescription &serviceAPIDescription,
     Pistache::Http::ResponseWriter &response) {
   std::string res;
-  res = "Update service API\n";
+  res = "Update a published service API\n";
   res += "apfId=" + apfId + "\n";
   res += "serviceApiId=" + serviceApiId + "\n";
   response.send(Pistache::Http::Code::Ok, res);
