@@ -1,0 +1,6 @@
+{
+     "repoServer": "https://myServer/repository/openapi",
+     "repoUser": "admin",
+     "repoPassword": "admin",
+     "groupId": "com.myCompany.openapi"
+}

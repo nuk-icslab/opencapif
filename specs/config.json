@@ -1,0 +1,93 @@
+{
+  "specs": [
+    {
+      "file": "29222-capif_stage3-h20/TS29222_AEF_Security_API.yaml",
+      "enabled": true,
+      "context": {
+        "public": true,
+        "version": "17.2.0"
+      }
+    },
+    {
+      "file": "./29222-capif_stage3-h20/TS29222_CAPIF_Access_Control_Policy_API.yaml",
+      "enabled": true,
+      "context": {
+        "public": true,
+        "version": "17.2.0"
+      }
+    },
+    {
+      "file": "./29222-capif_stage3-h20/TS29222_CAPIF_API_Invoker_Management_API.yaml",
+      "enabled": true,
+      "context": {
+        "public": true,
+        "version": "17.2.0"
+      }
+    },
+    {
+      "file": "./29222-capif_stage3-h20/TS29222_CAPIF_API_Provider_Management_API.yaml",
+      "enabled": true,
+      "context": {
+        "public": true,
+        "version": "17.2.0"
+      }
+    },
+    {
+      "file": "./29222-capif_stage3-h20/TS29222_CAPIF_Auditing_API.yaml",
+      "enabled": true,
+      "context": {
+        "public": true,
+        "version": "17.2.0"
+      }
+    },
+    {
+      "file": "./29222-capif_stage3-h20/TS29222_CAPIF_Discover_Service_API.yaml",
+      "enabled": true,
+      "context": {
+        "public": true,
+        "version": "17.2.0"
+      }
+    },
+    {
+      "file": "./29222-capif_stage3-h20/TS29222_CAPIF_Events_API.yaml",
+      "enabled": true,
+      "context": {
+        "public": true,
+        "version": "17.2.0"
+      }
+    },
+    {
+      "file": "./29222-capif_stage3-h20/TS29222_CAPIF_Logging_API_Invocation_API.yaml",
+      "enabled": true,
+      "context": {
+        "public": true,
+        "version": "17.2.0"
+      }
+    },
+    {
+      "file": "./29222-capif_stage3-h20/TS29222_CAPIF_Publish_Service_API.yaml",
+      "enabled": true,
+      "context": {
+        "public": true,
+        "version": "17.2.0"
+      }
+    },
+    {
+      "file": "./29222-capif_stage3-h20/TS29222_CAPIF_Routing_Info_API.yaml",
+      "enabled": true,
+      "context": {
+        "public": true,
+        "version": "17.2.0"
+      }
+    },
+    {
+      "file": "./29222-capif_stage3-h20/TS29222_CAPIF_Security_API.yaml",
+      "enabled": true,
+      "context": {
+        "public": true,
+        "version": "17.2.0"
+      }
+    }
+  ],
+  "html-injector": []
+}
