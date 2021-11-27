@@ -21,7 +21,7 @@
 #include <vector>
 #endif
 
-#include "DefaultApiImpl.h"
+#include "PublishServiceServerImpl.h"
 
 #define PISTACHE_SERVER_THREADS 2
 #define PISTACHE_SERVER_MAX_REQUEST_SIZE 32768
@@ -76,8 +76,8 @@ int main() {
   opts.maxResponseSize(PISTACHE_SERVER_MAX_RESPONSE_SIZE);
   httpEndpoint->init(opts);
 
-  DefaultApiImpl DefaultApiserver(router);
-  DefaultApiserver.init();
+  PublishServiceServerImpl PublishServiceServer(router);
+  PublishServiceServer.init();
 
   std::cout << "CAPIF core function is listening on port " << port << std::endl;
   httpEndpoint->setHandler(router->handler());
