@@ -10,6 +10,13 @@ An Implementation of 3GPP Common API Framework (CAPIF)
 - Library of API exposing function
 - Library of API invokes
 
+## Dependency
+
+- [mongocxx, bsoncxx](http://mongocxx.org/)
+- [pistache](https://github.com/pistacheio/pistache)
+- [spdlog](https://github.com/gabime/spdlog)
+- [nlohmann_json](https://github.com/nlohmann/json)
+
 ## References
 
 - 3GPP, TS 23.222 v17.5.0, "Common API Framework for 3GPP Northbound APIs"
