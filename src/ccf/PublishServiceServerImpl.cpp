@@ -23,8 +23,9 @@ namespace api {
 using namespace org::openapitools::server::model;
 
 PublishServiceServerImpl::PublishServiceServerImpl(
-    const std::shared_ptr<Pistache::Rest::Router> &rtr)
-    : PublishServiceServer(rtr) {}
+    const std::shared_ptr<Pistache::Rest::Router> &rtr,
+    const std::shared_ptr<mongocxx::database> &database)
+    : PublishServiceServer(rtr), db(database) {}
 
 void PublishServiceServerImpl::apf_id_service_apis_get(
     const std::string &apfId, Pistache::Http::ResponseWriter &response) {

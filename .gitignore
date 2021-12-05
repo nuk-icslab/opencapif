@@ -1,2 +1,5 @@
 # Excluding the build output directory
 build/
+
+# Excluding the configuration file of VSCode
+.vscode

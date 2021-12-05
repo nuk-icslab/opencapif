@@ -24,7 +24,10 @@
 #include <pistache/http.h>
 #include <pistache/router.h>
 
-#include <memory>
+#include <mongocxx/client.hpp>
+#include <mongocxx/instance.hpp>
+#include <mongocxx/stdx.hpp>
+#include <mongocxx/uri.hpp>
 #include <string>
 
 #include "capif/api/PublishServiceServer.h"
@@ -38,7 +41,9 @@ using namespace org::openapitools::server::model;
 class PublishServiceServerImpl
     : public org::openapitools::server::api::PublishServiceServer {
  public:
-  explicit PublishServiceServerImpl(const std::shared_ptr<Pistache::Rest::Router> &rtr);
+  explicit PublishServiceServerImpl(
+      const std::shared_ptr<Pistache::Rest::Router> &rtr,
+      const std::shared_ptr<mongocxx::database> &database);
   ~PublishServiceServerImpl() override = default;
 
   void apf_id_service_apis_get(const std::string &apfId,
@@ -57,6 +62,9 @@ class PublishServiceServerImpl
       const std::string &serviceApiId, const std::string &apfId,
       const ServiceAPIDescription &serviceAPIDescription,
       Pistache::Http::ResponseWriter &response);
+
+ private:
+  std::shared_ptr<mongocxx::database> db;
 };
 
 }  // namespace org::openapitools::server::api

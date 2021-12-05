@@ -11,9 +11,14 @@
  * the class manually.
  */
 
-#include "pistache/endpoint.h"
-#include "pistache/http.h"
-#include "pistache/router.h"
+#include <pistache/endpoint.h>
+#include <pistache/http.h>
+#include <pistache/router.h>
+#include <spdlog/spdlog.h>
+
+#include <mongocxx/client.hpp>
+#include <mongocxx/exception/exception.hpp>
+#include <mongocxx/instance.hpp>
 #ifdef __linux__
 #include <signal.h>
 #include <unistd.h>
@@ -58,12 +63,30 @@ static void setUpUnixSignals(std::vector<int> quitSignals) {
 
 using namespace org::openapitools::server::api;
 
-int main() {
+int main(int argc, char *argv[]) {
   int port = 8080;
 #ifdef __linux__
   std::vector<int> sigs{SIGQUIT, SIGINT, SIGTERM, SIGHUP};
   setUpUnixSignals(sigs);
 #endif
+
+  spdlog::info("CAPIF Core Function. version: {}", __CCF_VERSION__);
+
+  /**
+   * Initialize connection to MongoDB
+   * [TODO] Put parameters into configuration file
+   */
+  std::shared_ptr<mongocxx::database> db;
+  try {
+    mongocxx::instance inst{};  // This should be done only once.
+    mongocxx::client db_conn{mongocxx::uri{"mongodb://localhost:27017"}};
+    db = std::make_shared<mongocxx::database>(db_conn["capif"]);
+  } catch (mongocxx::exception &e) {
+    spdlog::error("Failed to connect to database: {}", e.what());
+    return EXIT_FAILURE;
+  }
+  spdlog::info("Connected to database");
+
   Pistache::Address addr(Pistache::Ipv4::any(), Pistache::Port(port));
 
   httpEndpoint = new Pistache::Http::Endpoint((addr));
@@ -76,10 +99,10 @@ int main() {
   opts.maxResponseSize(PISTACHE_SERVER_MAX_RESPONSE_SIZE);
   httpEndpoint->init(opts);
 
-  PublishServiceServerImpl PublishServiceServer(router);
+  PublishServiceServerImpl PublishServiceServer(router, db);
   PublishServiceServer.init();
 
-  std::cout << "CAPIF core function is listening on port " << port << std::endl;
+  spdlog::info("CAPIF core function is listening on port {}", port);
   httpEndpoint->setHandler(router->handler());
   httpEndpoint->serve();
 
