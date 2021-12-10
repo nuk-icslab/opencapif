@@ -16,6 +16,7 @@ An Implementation of 3GPP Common API Framework (CAPIF)
 - [pistache](https://github.com/pistacheio/pistache)
 - [spdlog](https://github.com/gabime/spdlog)
 - [nlohmann_json](https://github.com/nlohmann/json)
+- [fmt](https://github.com/fmtlib/fmt)
 
 ## References
 

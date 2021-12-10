@@ -28,6 +28,7 @@ file(GLOB_RECURSE CCF_SRCS
 # Check dependencies
 find_package(Threads REQUIRED)
 find_package(spdlog REQUIRED)
+find_package(fmt REQUIRED)
 pkg_check_modules(LIBMONGOCXX libmongocxx)
 pkg_check_modules(LIBBSONCXX libbsoncxx)
 
@@ -37,6 +38,7 @@ target_link_libraries(${CCF_NAME} PUBLIC
                      capif
                      Threads::Threads
                      spdlog::spdlog
+                     fmt::fmt
                      ${LIBMONGOCXX_LIBRARIES}
                      ${LIBBSONCXX_LIBRARIES}
                      )

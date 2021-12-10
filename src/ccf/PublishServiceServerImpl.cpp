@@ -16,6 +16,9 @@
 #include <fmt/core.h>
 #include <spdlog/spdlog.h>
 
+#include <bsoncxx/builder/stream/document.hpp>
+#include <bsoncxx/builder/stream/helpers.hpp>
+#include <bsoncxx/exception/exception.hpp>
 #include <mongocxx/exception/exception.hpp>
 #include <nlohmann/json.hpp>
 #include <sstream>
@@ -56,13 +59,15 @@ void PublishServiceServerImpl::apf_id_service_apis_post(
     nlohmann::json json_obj;
     to_json(json_obj, serviceAPIDescription);
 
-    spdlog::info("Received an API publishing request:\n{}", json_obj.dump(4));
+    spdlog::info("Received an API publishing request:");
+    spdlog::info("  apfId={}", apfId);
+    spdlog::info("  data={}", json_obj.dump());
 
     bsoncxx::document::value document = util::njson2bsoncxx(json_obj);
 
     auto result = api_collection.insert_one(std::move(document));
     std::string api_id = result->inserted_id().get_oid().value.to_string();
-    spdlog::info("New API insered to database, API_ID={}", api_id);
+    spdlog::info("New API inserted to database. apiId={}", api_id);
 
     std::string new_resource_locaiton = fmt::format(
         "{}/published-apis/v1/{}/service-apis/{}", API_ROOT, apfId, api_id);
@@ -75,40 +80,64 @@ void PublishServiceServerImpl::apf_id_service_apis_post(
         .add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
     response.send(Pistache::Http::Code::Ok, res.dump());
   } catch (mongocxx::exception &e) {
-    spdlog::error("An exception occurred when inserting to database: {}",
-                  e.what());
+    spdlog::error("When inserting to database: {}", e.what());
     spdlog::error("No new API will be inserted.");
-    response.send(Pistache::Http::Code::Internal_Server_Error);
+    response.send(Pistache::Http::Code::Internal_Server_Error,
+                  "{'status':500}");
   }
 }
 void PublishServiceServerImpl::apf_id_service_apis_service_api_id_delete(
     const std::string &serviceApiId, const std::string &apfId,
     Pistache::Http::ResponseWriter &response) {
-  std::string res;
-  res = "Unpublish a published service API\n";
-  res += "apfId=" + apfId + "\n";
-  res += "serviceApiId=" + serviceApiId + "\n";
+  spdlog::info("Received an API unpublishing request:");
+  spdlog::info("  apfId={}", apfId);
+  spdlog::info("  serviceApiId={}", serviceApiId);
 
-  response.send(Pistache::Http::Code::Ok, res);
+  // [TODO] Implementation of API unpublishing
+
+  response.send(Pistache::Http::Code::Service_Unavailable);
 }
 void PublishServiceServerImpl::apf_id_service_apis_service_api_id_get(
     const std::string &serviceApiId, const std::string &apfId,
     Pistache::Http::ResponseWriter &response) {
-  std::string res;
-  res = "Retrieve a published service API\n";
-  res += "apfId=" + apfId + "\n";
-  res += "serviceApiId=" + serviceApiId + "\n";
-  response.send(Pistache::Http::Code::Ok, res);
+  try {
+    spdlog::info("Received an API retrieving request:");
+    spdlog::info("  apfId={}", apfId);
+    spdlog::info("  serviceApiId={}", serviceApiId);
+
+    bsoncxx::oid oid{bsoncxx::stdx::string_view{serviceApiId}};
+    bsoncxx::stdx::optional<bsoncxx::document::value> result =
+        api_collection.find_one(bsoncxx::builder::stream::document{}
+                                << "_id" << oid
+                                << bsoncxx::builder::stream::finalize);
+    if (result) {
+      response.send(Pistache::Http::Code::Ok, bsoncxx::to_json(*result));
+    } else {
+      response.send(Pistache::Http::Code::Not_Found, "{'status':404}");
+    }
+  } catch (bsoncxx::exception &e) {
+    spdlog::error("When parsing API id: {}", e.what());
+    response.send(Pistache::Http::Code::Not_Found, "{'status':404}");
+  } catch (mongocxx::exception &e) {
+    spdlog::error("When inserting to database: {}", e.what());
+    response.send(Pistache::Http::Code::Internal_Server_Error,
+                  "{'status':500}");
+  }
 }
 void PublishServiceServerImpl::apf_id_service_apis_service_api_id_put(
     const std::string &serviceApiId, const std::string &apfId,
     const ServiceAPIDescription &serviceAPIDescription,
     Pistache::Http::ResponseWriter &response) {
-  std::string res;
-  res = "Update a published service API\n";
-  res += "apfId=" + apfId + "\n";
-  res += "serviceApiId=" + serviceApiId + "\n";
-  response.send(Pistache::Http::Code::Ok, res);
+  nlohmann::json json_obj;
+  to_json(json_obj, serviceAPIDescription);
+  spdlog::info("Received an API updating request:");
+  spdlog::info("  apfId={}", apfId);
+  spdlog::info("  serviceApiId={}", serviceApiId);
+  spdlog::info("  data={}", json_obj.dump());
+
+  // [TODO] Implementation of API updating
+
+  response.send(Pistache::Http::Code::Service_Unavailable);
 }
 
 }  // namespace api
