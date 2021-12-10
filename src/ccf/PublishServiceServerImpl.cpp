@@ -13,7 +13,14 @@
 
 #include "PublishServiceServerImpl.h"
 
+#include <fmt/core.h>
+#include <spdlog/spdlog.h>
+
+#include <mongocxx/exception/exception.hpp>
+#include <nlohmann/json.hpp>
 #include <sstream>
+
+#include "util.h"
 
 namespace org {
 namespace openapitools {
@@ -22,10 +29,14 @@ namespace api {
 
 using namespace org::openapitools::server::model;
 
+const std::string API_ROOT = "http://localhost:8080";
+
 PublishServiceServerImpl::PublishServiceServerImpl(
     const std::shared_ptr<Pistache::Rest::Router> &rtr,
     const std::shared_ptr<mongocxx::database> &database)
-    : PublishServiceServer(rtr), db(database) {}
+    : PublishServiceServer(rtr), db(database) {
+  api_collection = (*db)["apis"];
+}
 
 void PublishServiceServerImpl::apf_id_service_apis_get(
     const std::string &apfId, Pistache::Http::ResponseWriter &response) {
@@ -39,12 +50,36 @@ void PublishServiceServerImpl::apf_id_service_apis_post(
     const std::string &apfId,
     const ServiceAPIDescription &serviceAPIDescription,
     Pistache::Http::ResponseWriter &response) {
-  std::string res;
-  res = "Publish a new API\n";
-  res += "apfId=" + apfId + "\n";
-  res += "apiName=" + serviceAPIDescription.getApiName() + "\n";
+  try {
+    nlohmann::json res;
 
-  response.send(Pistache::Http::Code::Ok, res);
+    nlohmann::json json_obj;
+    to_json(json_obj, serviceAPIDescription);
+
+    spdlog::info("Received an API publishing request:\n{}", json_obj.dump(4));
+
+    bsoncxx::document::value document = util::njson2bsoncxx(json_obj);
+
+    auto result = api_collection.insert_one(std::move(document));
+    std::string api_id = result->inserted_id().get_oid().value.to_string();
+    spdlog::info("New API insered to database, API_ID={}", api_id);
+
+    std::string new_resource_locaiton = fmt::format(
+        "{}/published-apis/v1/{}/service-apis/{}", API_ROOT, apfId, api_id);
+
+    res["apiName"] = serviceAPIDescription.getApiName();
+    res["apiId"] = api_id;
+
+    response.headers()
+        .add<Pistache::Http::Header::Location>(new_resource_locaiton)
+        .add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
+    response.send(Pistache::Http::Code::Ok, res.dump());
+  } catch (mongocxx::exception &e) {
+    spdlog::error("An exception occurred when inserting to database: {}",
+                  e.what());
+    spdlog::error("No new API will be inserted.");
+    response.send(Pistache::Http::Code::Internal_Server_Error);
+  }
 }
 void PublishServiceServerImpl::apf_id_service_apis_service_api_id_delete(
     const std::string &serviceApiId, const std::string &apfId,

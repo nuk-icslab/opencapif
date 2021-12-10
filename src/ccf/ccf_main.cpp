@@ -17,7 +17,6 @@
 #include <spdlog/spdlog.h>
 
 #include <mongocxx/client.hpp>
-#include <mongocxx/exception/exception.hpp>
 #include <mongocxx/instance.hpp>
 #ifdef __linux__
 #include <signal.h>
@@ -76,16 +75,10 @@ int main(int argc, char *argv[]) {
    * Initialize connection to MongoDB
    * [TODO] Put parameters into configuration file
    */
-  std::shared_ptr<mongocxx::database> db;
-  try {
-    mongocxx::instance inst{};  // This should be done only once.
-    mongocxx::client db_conn{mongocxx::uri{"mongodb://localhost:27017"}};
-    db = std::make_shared<mongocxx::database>(db_conn["capif"]);
-  } catch (mongocxx::exception &e) {
-    spdlog::error("Failed to connect to database: {}", e.what());
-    return EXIT_FAILURE;
-  }
-  spdlog::info("Connected to database");
+  mongocxx::instance inst{};  // This should be done only once.
+  mongocxx::client db_conn{mongocxx::uri{"mongodb://localhost:27017"}};
+  std::shared_ptr<mongocxx::database> db =
+      std::make_shared<mongocxx::database>(db_conn["capif"]);
 
   Pistache::Address addr(Pistache::Ipv4::any(), Pistache::Port(port));
 

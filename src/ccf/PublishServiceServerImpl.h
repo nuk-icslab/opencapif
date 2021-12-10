@@ -65,6 +65,7 @@ class PublishServiceServerImpl
 
  private:
   std::shared_ptr<mongocxx::database> db;
+  mongocxx::collection api_collection;
 };
 
 }  // namespace org::openapitools::server::api
