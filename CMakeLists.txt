@@ -47,3 +47,30 @@ target_include_directories(${CCF_NAME} PUBLIC
                           ${LIBMONGOCXX_INCLUDE_DIRS}
                           ${LIBBSONCXX_INCLUDE_DIRS}
                           )
+#========
+set(APF_NAME apf)
+
+file(GLOB_RECURSE APF_SRCS
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/apf/*.cpp
+)
+
+# Check dependencies
+find_package(CURL REQUIRED)
+find_package(spdlog REQUIRED)
+find_package(fmt REQUIRED)
+
+add_library(${APF_NAME} SHARED ${APF_SRCS})
+target_link_libraries(${APF_NAME} PUBLIC
+                     capif
+                     spdlog::spdlog
+                     fmt::fmt
+                     ${CURL_LIBRARIES}
+                     )
+target_include_directories(${APF_NAME} PUBLIC
+                          lib/capif/include/
+                          include/
+                          ${CURL_INCLUDE_DIRS}
+                          )
+
+#===========
+add_subdirectory(example)
