@@ -17,8 +17,8 @@
  *
  */
 
-#ifndef DEFAULT_API_IMPL_H_
-#define DEFAULT_API_IMPL_H_
+#ifndef PUBLISH_SERVICE_SERVER_IMPL_H_
+#define PUBLISH_SERVICE_SERVER_IMPL_H_
 
 #include <pistache/endpoint.h>
 #include <pistache/http.h>

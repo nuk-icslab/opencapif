@@ -11,27 +11,30 @@
  * the class manually.
  */
 /*
- * PublishedApiPath.h
+ * DiscoveredAPIs.h
  *
- * Represents the published API path within the same CAPIF provider domain.
+ * Represents a list of APIs currently registered in the CAPIF core function and
+ * satisfying a number of filter criteria provided by the API consumer.
  */
 
-#ifndef PublishedApiPath_H_
-#define PublishedApiPath_H_
+#ifndef DiscoveredAPIs_H_
+#define DiscoveredAPIs_H_
 
 #include <nlohmann/json.hpp>
-#include <string>
 #include <vector>
+
+#include "capif/model/ServiceAPIDescription.h"
 
 namespace org::openapitools::server::model {
 
 /// <summary>
-/// Represents the published API path within the same CAPIF provider domain.
+/// Represents a list of APIs currently registered in the CAPIF core function
+/// and satisfying a number of filter criteria provided by the API consumer.
 /// </summary>
-class PublishedApiPath {
+class DiscoveredAPIs {
  public:
-  PublishedApiPath();
-  virtual ~PublishedApiPath() = default;
+  DiscoveredAPIs();
+  virtual ~DiscoveredAPIs() = default;
 
   /// <summary>
   /// Validate the current data in the model. Throws a ValidationException on
@@ -51,28 +54,30 @@ class PublishedApiPath {
   /// </summary>
   bool validate(std::stringstream& msg, const std::string& pathPrefix) const;
 
-  bool operator==(const PublishedApiPath& rhs) const;
-  bool operator!=(const PublishedApiPath& rhs) const;
+  bool operator==(const DiscoveredAPIs& rhs) const;
+  bool operator!=(const DiscoveredAPIs& rhs) const;
 
   /////////////////////////////////////////////
-  /// PublishedApiPath members
+  /// DiscoveredAPIs members
 
   /// <summary>
-  /// A list of CCF identifiers where the service API is already published.
+  /// Description of the service API as published by the service. Each service
+  /// API description shall include AEF profiles matching the filter criteria.
   /// </summary>
-  std::vector<std::string> getCcfIds() const;
-  void setCcfIds(std::vector<std::string> const& value);
-  bool ccfIdsIsSet() const;
-  void unsetCcfIds();
+  std::vector<ServiceAPIDescription> getServiceAPIDescriptions() const;
+  void setServiceAPIDescriptions(
+      std::vector<ServiceAPIDescription> const& value);
+  bool serviceAPIDescriptionsIsSet() const;
+  void unsetServiceAPIDescriptions();
 
-  friend void to_json(nlohmann::json& j, const PublishedApiPath& o);
-  friend void from_json(const nlohmann::json& j, PublishedApiPath& o);
+  friend void to_json(nlohmann::json& j, const DiscoveredAPIs& o);
+  friend void from_json(const nlohmann::json& j, DiscoveredAPIs& o);
 
  protected:
-  std::vector<std::string> m_CcfIds;
-  bool m_CcfIdsIsSet;
+  std::vector<ServiceAPIDescription> m_ServiceAPIDescriptions;
+  bool m_ServiceAPIDescriptionsIsSet;
 };
 
 }  // namespace org::openapitools::server::model
 
-#endif /* PublishedApiPath_H_ */
+#endif /* DiscoveredAPIs_H_ */

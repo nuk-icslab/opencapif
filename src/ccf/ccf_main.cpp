@@ -25,6 +25,9 @@
 #include <vector>
 #endif
 
+#include <pistache/router.h>
+
+#include "DiscoverServiceServerImpl.h"
 #include "PublishServiceServerImpl.h"
 
 #define PISTACHE_SERVER_THREADS 2
@@ -60,6 +63,12 @@ static void setUpUnixSignals(std::vector<int> quitSignals) {
 }
 #endif
 
+void api_default_handler(const Pistache::Rest::Request &,
+                         Pistache::Http::ResponseWriter response) {
+  response.send(Pistache::Http::Code::Not_Found,
+                "The requested endpoint does not exist");
+}
+
 using namespace org::openapitools::server::api;
 
 int main(int argc, char *argv[]) {
@@ -94,6 +103,11 @@ int main(int argc, char *argv[]) {
 
   PublishServiceServerImpl PublishServiceServer(router, db);
   PublishServiceServer.init();
+  DiscoverServiceServerImpl DiscoverServiceServer(router, db);
+  DiscoverServiceServer.init();
+
+  // Default handler, called when a route is not found
+  router->addCustomHandler(Pistache::Rest::Routes::bind(&api_default_handler));
 
   spdlog::info("CAPIF core function is listening on port {}", port);
   httpEndpoint->setHandler(router->handler());

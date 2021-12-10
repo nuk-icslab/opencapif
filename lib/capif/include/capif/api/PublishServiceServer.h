@@ -16,8 +16,8 @@
  *
  */
 
-#ifndef PublishServicServer_H_
-#define PublishServiceerver_H_
+#ifndef PublishServiceServer_H_
+#define PublishServiceServer_H_
 
 #include <pistache/http.h>
 #include <pistache/http_headers.h>

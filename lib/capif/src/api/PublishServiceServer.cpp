@@ -54,10 +54,6 @@ void PublishServiceServer::setupRoutes() {
       Routes::bind(
           &PublishServiceServer::apf_id_service_apis_service_api_id_put_handler,
           this));
-
-  // Default handler, called when a route is not found
-  router->addCustomHandler(
-      Routes::bind(&PublishServiceServer::default_api_default_handler, this));
 }
 
 std::pair<Pistache::Http::Code, std::string>
