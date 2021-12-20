@@ -18,6 +18,7 @@ write_file(.VERSION "${CMAKE_PROJECT_VERSION}")
 message("${CMAKE_PROJECT_NAME} version: ${CMAKE_PROJECT_VERSION} (${GIT_COMMIT_HASH})")
 
 add_subdirectory(lib/capif)
+add_subdirectory(example)
 
 set(CCF_NAME ccf)
 
@@ -71,6 +72,3 @@ target_include_directories(${APF_NAME} PUBLIC
                           include/
                           ${CURL_INCLUDE_DIRS}
                           )
-
-#===========
-add_subdirectory(example)

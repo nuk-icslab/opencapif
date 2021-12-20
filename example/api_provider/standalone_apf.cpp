@@ -24,7 +24,7 @@ int main() {
   new_aef.setVersions(versions);
   aefs.push_back(new_aef);
 
-  new_api.setApiName("test_api");
+  new_api.setApiName("ping");
   new_api.setAefProfiles(aefs);
 
   apf.register_api(new_api);
