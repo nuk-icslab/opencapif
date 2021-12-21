@@ -6,7 +6,7 @@ find_package(yaml-cpp REQUIRED)
 pkg_check_modules(LIBPISTACHE libpistache)
 
 add_executable(standalone_apf
-              api_provider/standalone_apf.cpp
+              api_publishing_function/standalone_apf.cpp
               )
 target_link_libraries(standalone_apf PUBLIC
                      capif apf
@@ -17,10 +17,10 @@ target_include_directories(standalone_apf PUBLIC
     include/
     lib/capif/include/
 )
-configure_file(api_provider/config/apf.yaml
+configure_file(api_publishing_function/config/apf.yaml
               config/apf.yaml
               )
-configure_file(api_provider/config/api.yaml
+configure_file(api_publishing_function/config/api.yaml
               config/api.yaml
               )
 

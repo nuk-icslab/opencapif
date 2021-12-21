@@ -81,12 +81,14 @@ std::string apiInvoker::call_api(std::string name, std::string resource,
 
   spdlog::info("API called \"{} {}\" data: {}", to_string(method), url,
                params.dump());
+
+  std::string res;
   switch (method) {
     case GET:
-      httpClient.get(url, params);
+      res = httpClient.get(url, params);
       break;
     case POST:
-      httpClient.post(url, params);
+      res = httpClient.post(url, params);
       break;
 
     default:
@@ -94,7 +96,7 @@ std::string apiInvoker::call_api(std::string name, std::string resource,
       break;
   }
 
-  return "";
+  return res;
 }
 void apiInvoker::discover_apis() {
   std::string res;
