@@ -37,7 +37,9 @@ void apiPublishingFunction::register_api(
     std::string publish_url =
         fmt::format("{}/published-apis/v1/{}/service-apis", ccfRoot, apfId);
 
+#if DEBUG
     curl_easy_setopt(curl, CURLOPT_VERBOSE, 1L);
+#endif
     curl_easy_setopt(curl, CURLOPT_URL, publish_url.c_str());
 
     curl_easy_setopt(curl, CURLOPT_COPYPOSTFIELDS, api_json_obj.dump().c_str());

@@ -2,6 +2,7 @@ cmake_minimum_required (VERSION 3.2)
 include(FindPkgConfig)
 
 find_package(spdlog REQUIRED)
+find_package(yaml-cpp REQUIRED)
 pkg_check_modules(LIBPISTACHE libpistache)
 
 add_executable(standalone_apf
@@ -9,9 +10,16 @@ add_executable(standalone_apf
               )
 target_link_libraries(standalone_apf PUBLIC
                      capif apf
+                     yaml-cpp
                      spdlog::spdlog
                      )
 target_include_directories(standalone_apf PUBLIC
     include/
     lib/capif/include/
 )
+configure_file(api_provider/config/apf.yaml
+              config/apf.yaml
+              )
+configure_file(api_provider/config/api.yaml
+              config/api.yaml
+              )

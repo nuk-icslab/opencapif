@@ -18,6 +18,10 @@ An Implementation of 3GPP Common API Framework (CAPIF)
 - [nlohmann_json](https://github.com/nlohmann/json)
 - [fmt](https://github.com/fmtlib/fmt)
 
+### Dependency of Example
+
+- [yaml-cpp](https://github.com/jbeder/yaml-cpp)
+
 ## References
 
 - 3GPP, TS 23.222 v17.5.0, "Common API Framework for 3GPP Northbound APIs"
