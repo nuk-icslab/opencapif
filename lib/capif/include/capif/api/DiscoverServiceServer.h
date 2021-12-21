@@ -105,7 +105,7 @@ class DiscoverServiceServer {
   /// query parameter is present. (optional, default to &quot;&quot;)</param>
   // Pistache::Optional
   virtual void all_service_apis_get(
-      const std::optional<std::string> &apiInvokerId,
+      const std::string &apiInvokerId,
       const std::optional<std::string> &apiName,
       const std::optional<std::string> &apiVersion,
       const std::optional<CommunicationType> &commType,

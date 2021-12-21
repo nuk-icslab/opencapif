@@ -65,10 +65,11 @@ void DiscoverServiceServer::all_service_apis_get_handler(
   try {
     // Getting the query params
     auto apiInvokerIdQuery = request.query().get("api-invoker-id");
-    std::optional<std::string> apiInvokerId;
-    if (apiInvokerIdQuery) {
-      apiInvokerId = *apiInvokerIdQuery;
+    std::string apiInvokerId;
+    if (!apiInvokerIdQuery) {
+      throw "Missing api-invoker-id";
     }
+    apiInvokerId = *apiInvokerIdQuery;
     auto apiNameQuery = request.query().get("api-name");
     std::optional<std::string> apiName;
     if (apiNameQuery) {
@@ -136,7 +137,8 @@ void DiscoverServiceServer::all_service_apis_get_handler(
       response.send(errorInfo.first, errorInfo.second);
       return;
     }
-
+  } catch (const char *e) {
+    response.send(Pistache::Http::Code::Bad_Request, e);
   } catch (std::exception &e) {
     response.send(Pistache::Http::Code::Internal_Server_Error, e.what());
   }

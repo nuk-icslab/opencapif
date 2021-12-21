@@ -3,6 +3,8 @@ info:
   version: 1.0.0
   title: Sample API
   description: A sample API to illustrate OpenAPI concepts
+servers:
+  - url: http://localhost:8081/v1
 paths:
   /ping:
     get:

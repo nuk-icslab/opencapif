@@ -58,7 +58,7 @@ class DiscoverServiceServerImpl
   ~DiscoverServiceServerImpl() override = default;
 
   void all_service_apis_get(
-      const std::optional<std::string> &apiInvokerId,
+      const std::string &apiInvokerId,
       const std::optional<std::string> &apiName,
       const std::optional<std::string> &apiVersion,
       const std::optional<CommunicationType> &commType,
