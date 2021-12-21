@@ -32,6 +32,7 @@ file(GLOB_RECURSE CCF_SRCS
 find_package(Threads REQUIRED)
 find_package(spdlog REQUIRED)
 find_package(fmt REQUIRED)
+find_package(yaml-cpp REQUIRED)
 pkg_check_modules(LIBMONGOCXX libmongocxx)
 pkg_check_modules(LIBBSONCXX libbsoncxx)
 
@@ -42,6 +43,7 @@ target_link_libraries(${CCF_NAME} PUBLIC
                      Threads::Threads
                      spdlog::spdlog
                      fmt::fmt
+                     yaml-cpp
                      ${LIBMONGOCXX_LIBRARIES}
                      ${LIBBSONCXX_LIBRARIES}
                      )
@@ -50,6 +52,9 @@ target_include_directories(${CCF_NAME} PUBLIC
                           ${LIBMONGOCXX_INCLUDE_DIRS}
                           ${LIBBSONCXX_INCLUDE_DIRS}
                           )
+configure_file(config/ccf.yaml
+              config/ccf.yaml
+              )
 #========
 set(APF_NAME apf)
 

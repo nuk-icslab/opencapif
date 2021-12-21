@@ -17,9 +17,6 @@ An Implementation of 3GPP Common API Framework (CAPIF)
 - [spdlog](https://github.com/gabime/spdlog)
 - [nlohmann_json](https://github.com/nlohmann/json)
 - [fmt](https://github.com/fmtlib/fmt)
-
-### Dependency of Example
-
 - [yaml-cpp](https://github.com/jbeder/yaml-cpp)
 
 ## References

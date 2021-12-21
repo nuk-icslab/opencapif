@@ -15,6 +15,7 @@
 #include <pistache/http.h>
 #include <pistache/router.h>
 #include <spdlog/spdlog.h>
+#include <yaml-cpp/yaml.h>
 
 #include <mongocxx/client.hpp>
 #include <mongocxx/instance.hpp>
@@ -72,22 +73,26 @@ void api_default_handler(const Pistache::Rest::Request &,
 using namespace org::openapitools::server::api;
 
 int main(int argc, char *argv[]) {
-  int port = 8080;
 #ifdef __linux__
   std::vector<int> sigs{SIGQUIT, SIGINT, SIGTERM, SIGHUP};
   setUpUnixSignals(sigs);
 #endif
 
+  YAML::Node ccf_config = YAML::LoadFile("config/ccf.yaml");
+  int port = ccf_config["port"].as<int>();
+  std::string mongo_url = ccf_config["mongo"]["url"].as<std::string>();
+  std::string mongo_database =
+      ccf_config["mongo"]["database"].as<std::string>();
+
   spdlog::info("CAPIF Core Function. version: {}", __CCF_VERSION__);
 
   /**
    * Initialize connection to MongoDB
-   * [TODO] Put parameters into configuration file
    */
   mongocxx::instance inst{};  // This should be done only once.
-  mongocxx::client db_conn{mongocxx::uri{"mongodb://localhost:27017"}};
+  mongocxx::client db_conn{mongocxx::uri{mongo_url}};
   std::shared_ptr<mongocxx::database> db =
-      std::make_shared<mongocxx::database>(db_conn["capif"]);
+      std::make_shared<mongocxx::database>(db_conn[mongo_database]);
 
   Pistache::Address addr(Pistache::Ipv4::any(), Pistache::Port(port));
 
