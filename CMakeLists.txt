@@ -20,6 +20,8 @@ message("${CMAKE_PROJECT_NAME} version: ${CMAKE_PROJECT_VERSION} (${GIT_COMMIT_H
 add_subdirectory(lib/capif)
 add_subdirectory(example)
 
+#add_compile_definitions(DEBUG_CURL)
+
 set(CCF_NAME ccf)
 
 file(GLOB_RECURSE CCF_SRCS
@@ -52,6 +54,7 @@ target_include_directories(${CCF_NAME} PUBLIC
 set(APF_NAME apf)
 
 file(GLOB_RECURSE APF_SRCS
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/common/*.cpp
     ${CMAKE_CURRENT_SOURCE_DIR}/src/apf/*.cpp
 )
 
@@ -68,6 +71,32 @@ target_link_libraries(${APF_NAME} PUBLIC
                      ${CURL_LIBRARIES}
                      )
 target_include_directories(${APF_NAME} PUBLIC
+                          lib/capif/include/
+                          include/
+                          ${CURL_INCLUDE_DIRS}
+                          )
+
+#========
+set(INVOKER_NAME capifinvoker)
+
+file(GLOB_RECURSE INVOKER_SRCS
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/common/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/invoker/*.cpp
+)
+
+# Check dependencies
+find_package(CURL REQUIRED)
+find_package(spdlog REQUIRED)
+find_package(fmt REQUIRED)
+
+add_library(${INVOKER_NAME} SHARED ${INVOKER_SRCS})
+target_link_libraries(${INVOKER_NAME} PUBLIC
+                     capif
+                     spdlog::spdlog
+                     fmt::fmt
+                     ${CURL_LIBRARIES}
+                     )
+target_include_directories(${INVOKER_NAME} PUBLIC
                           lib/capif/include/
                           include/
                           ${CURL_INCLUDE_DIRS}

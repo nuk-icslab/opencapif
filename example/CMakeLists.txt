@@ -23,3 +23,21 @@ configure_file(api_provider/config/apf.yaml
 configure_file(api_provider/config/api.yaml
               config/api.yaml
               )
+
+#=========
+find_package(spdlog REQUIRED)
+find_package(yaml-cpp REQUIRED)
+pkg_check_modules(LIBPISTACHE libpistache)
+
+add_executable(simple_invoker
+              api_invoker/simple_invoker.cpp
+              )
+target_link_libraries(simple_invoker PUBLIC
+                     capif capifinvoker
+                     yaml-cpp
+                     spdlog::spdlog
+                     )
+target_include_directories(simple_invoker PUBLIC
+    include/
+    lib/capif/include/
+)

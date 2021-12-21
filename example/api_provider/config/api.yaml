@@ -1,10 +1,14 @@
 openapi: 3.0.0
 info:
   version: 1.0.0
-  title: Sample API
-  description: A sample API to illustrate OpenAPI concepts
+  title: Simple API
+  description: A simple API to illustrate OpenAPI concepts
 servers:
-  - url: http://localhost:8081/v1
+  - url: "{apiRoot}/simple-apis/v1"
+    variables:
+      apiRoot:
+        default: https://example.com
+        description: apiRoot as defined in subclause 7.5 of 3GPP TS 29.222.
 paths:
   /ping:
     get:

@@ -3,7 +3,8 @@ specs := $(patsubst %.yaml, %.spec, $(yamls))
 htmls := $(patsubst %.yaml, %.html, $(yamls))
 output_dir=./build
 doc_output_dir=./build/doc
-generator=cpp-pistache-server
+#generator=cpp-pistache-server
+generator=cpp-restsdk
 
 server-stub: $(specs)
 docs: $(htmls)

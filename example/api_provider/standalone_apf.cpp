@@ -2,12 +2,14 @@
 #include <yaml-cpp/yaml.h>
 
 #include <nlohmann/json.hpp>
+#include <regex>
 #include <vector>
 
 #include "apf.h"
 #include "capif/model/AefProfile.h"
 #include "capif/model/ServiceAPIDescription.h"
 #include "capif/model/Version.h"
+#include "http_client.h"
 
 using namespace org::openapitools::server::model;
 
@@ -63,8 +65,11 @@ struct convert<InterfaceDescription> {
 int main() {
   YAML::Node apf_config = YAML::LoadFile("config/apf.yaml");
   YAML::Node api_config = YAML::LoadFile("config/api.yaml");
-  capif::apf::apiPublishingFunction apf{
-      apf_config["apf_id"].as<std::string>()};  // Initialized with APF ID
+
+  capif::httpClient httpClient{"Simple CAPIF API publishing function"};
+
+  capif::apf::apiPublishingFunction apf{apf_config["apf_id"].as<std::string>(),
+                                        httpClient};  // Initialized with APF ID
 
   std::vector<AefProfile> aefs;
   AefProfile aef;
@@ -81,18 +86,23 @@ int main() {
   }
 
   ServiceAPIDescription new_api;
-  const YAML::Node& apis_yaml = api_config["paths"];
-  for (YAML::const_iterator it = apis_yaml.begin(); it != apis_yaml.end();
-       ++it) {
-    std::string endpoint = it->first.as<std::string>();
-    spdlog::info("Registering resource {} of service API \"{}\" (version: {})",
-                 endpoint, api_config["info"]["title"].as<std::string>(),
-                 api_config["info"]["version"].as<std::string>());
+  std::string server_url = api_config["servers"][0]["url"].as<std::string>();
 
-    new_api.setAefProfiles(aefs);
-    new_api.setApiName(endpoint.substr(1));
+  /* Tokenlize the server_url */
+  auto const re = std::regex{"/"};
+  auto const server_url_token = std::vector<std::string>(
+      std::sregex_token_iterator{begin(server_url), end(server_url), re, -1},
+      std::sregex_token_iterator{});
+  std::string api_name = server_url_token[1];
+  std::string api_version = server_url_token[2];
 
-    apf.register_api(new_api);
-  }
+  spdlog::info("Registering service API \"{}\" (version: {})", api_name,
+               api_version);
+
+  new_api.setAefProfiles(aefs);
+  new_api.setApiName(api_name);
+
+  apf.register_api(new_api);
+
   return 0;
 }
