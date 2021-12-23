@@ -38,7 +38,8 @@ std::string httpClient::get(std::string url, nlohmann::json params) {
     std::string query_params = "";
     if (!params.empty()) {
       for (auto &param : params.items()) {
-        query_params += fmt::format("&{}={}", param.key(), param.value());
+        query_params += fmt::format("&{}={}", (std::string)param.key(),
+                                    (std::string)param.value());
       }
       query_params = query_params.substr(1);
     }
