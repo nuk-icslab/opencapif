@@ -1,5 +1,0 @@
-additionalProperties:
-  apiPackage: capif.discover.client.api
-  modelPackage: capif.discover.client.model
-  packageName: CppRestOpenAPIClient
-  packageVersion: 1.0.0

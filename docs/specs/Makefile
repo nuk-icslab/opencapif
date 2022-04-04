@@ -1,30 +1,68 @@
-yamls := $(wildcard 29222-capif_stage3-h20/TS29222*.yaml)
-specs := $(patsubst %.yaml, %.spec, $(yamls))
+yamls := $(wildcard 29222-capif_stage3-h20/TS*.yaml)
 htmls := $(patsubst %.yaml, %.html, $(yamls))
-output_dir=./build
-doc_output_dir=./build/doc
-#generator=cpp-pistache-server
-generator=cpp-restsdk
 
-server-stub: $(specs)
+output_dir := $(abspath ./build)
+spec_output_dir := $(abspath ./build/compiled_spec)
+doc_output_dir := $(abspath ./build/doc)
+tmp_dir := /tmp/capif
+
+merged_api_title := Merged 3GPP CAPIF API
+merged_api_version := h20
+
+.PHONY: all, docs, ccf-pistache, client-cpp, client-js, clean
+all: ccf-pistache client-cpp client-js
+
 docs: $(htmls)
 
-publish-service: 29222-capif_stage3-h20/TS29222_CAPIF_Publish_Service_API.spec
+ccf-pistache: $(spec_output_dir)/capif.yaml
+	mkdir -p $(output_dir)/ccf/pistache
+	openapi-generator-cli generate -o $(output_dir)/ccf/pistache \
+	  -g cpp-pistache-server -i $^
 
-discover-service: 29222-capif_stage3-h20/TS29222_CAPIF_Discover_Service_API.spec
+client-cpp: $(spec_output_dir)/capif.yaml
+	mkdir -p $(output_dir)/client/cpp
+	openapi-generator-cli generate -o $(output_dir)/client/cpp \
+	  -g cpp-restsdk -i $^
 
-%.spec: %.yaml
-	openapi-generator-cli generate -o $(output_dir) -g $(generator) -i $^
+client-js: $(spec_output_dir)/capif.yaml
+	mkdir -p $(output_dir)/client/js
+	openapi-generator-cli generate -o $(output_dir)/client/js \
+	  -g javascript -i $^
+
+$(spec_output_dir)/capif.yaml: openapi-merge.json $(yamls)
+	mkdir -p $(@D)
+	mkdir -p $(tmp_dir)
+
+	@echo Merging used APIs\' specifications
+	cp $^ $(tmp_dir)
+	cd $(tmp_dir) && openapi-merge-cli -c $<
+
+	@echo Compiling specifications to get rid off \$ref
+	openapi-generator-cli generate -o $(tmp_dir) -g openapi-yaml -i $(tmp_dir)/output.yaml
+	mv $(tmp_dir)/openapi/openapi.yaml $@
+
+	@echo Removing useless field
+	yq -i 'del(.servers)' $@
+	yq -i 'del(.externalDocs)' $@
+	yq -i 'del(.info.description)' $@
+
+	@echo Removing optional operationId to prevent duplication
+	yq -i 'del(.. | select(has("operationId")).operationId)' $@
+
+	@echo Updating description
+	yq -i '.info.title="$(merged_api_title)"' $@
+	yq -i '.info.version="$(merged_api_version)"' $@
+
+	@echo Validating the generated specification
+	openapi-generator-cli validate -i $@
+
+	rm -rf $(tmp_dir)
 
 %.html: %.yaml
+	mkdir -p $(@D)
 	redoc-cli bundle -o $(doc_output_dir)/$@ $^
 
-$(output_dir):
-	mkdir $(output_dir)
-
-$(doc_output_dir):
-	mkdir $(doc_output_dir)
-
 clean:
-	rm -rf $(output_dir)
+	rm -rf $(spec_output_dir)
 	rm -rf $(doc_output_dir)
+	rm -rf $(output_dir)
