@@ -1,7 +1,7 @@
 yamls := $(wildcard 29222-capif_stage3-h20/TS*.yaml)
 htmls := $(patsubst %.yaml, %.html, $(yamls))
 
-output_dir := $(abspath ./build)
+output_dir := $(abspath ../lib/openapi)
 spec_output_dir := $(abspath ./build/compiled_spec)
 doc_output_dir := $(abspath ./build/doc)
 tmp_dir := /tmp/capif

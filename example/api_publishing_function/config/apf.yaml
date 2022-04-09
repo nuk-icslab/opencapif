@@ -1,9 +1,0 @@
-apf_id: Test_APF
-aefs:
-  - aef_id: Test_AEF
-    domain: localhost
-    versions: ["v1"]
-    protocol: HTTP_1_1
-    interfaces:
-      - ipv4: 127.0.0.1
-        port: 8081
