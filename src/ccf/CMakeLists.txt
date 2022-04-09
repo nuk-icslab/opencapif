@@ -35,10 +35,10 @@ include_directories(${EXTERNAL_INSTALL_LOCATION}/include)
 link_directories(${EXTERNAL_INSTALL_LOCATION}/lib)
 
 file(GLOB_RECURSE CCF_SRCS
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
-    ${CMAKE_CURRENT_SOURCE_DIR}/src/impl/*.cpp
     ${OPENAPI_SRC_DIR}/model/*.cpp
     ${OPENAPI_SRC_DIR}/api/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/impl/*.cpp
+    ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp
 )
 
 # Check dependencies
