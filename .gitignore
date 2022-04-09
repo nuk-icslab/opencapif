@@ -1,6 +1,7 @@
 # Excluding the build output directory
-build/
+build
 lib/openapi
+external
 
 # Excluding the configuration file
 .vscode
