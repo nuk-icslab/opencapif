@@ -22,6 +22,7 @@ namespace org::openapitools::server::api
     {
         // Allow CORS
         response.headers().add<Pistache::Http::Header::AccessControlAllowOrigin>("*");
+        response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
         try
         {
             spdlog::info("Received service API discover request form API invoker {}",
@@ -33,12 +34,16 @@ namespace org::openapitools::server::api
              * [TODO] Query using restrict conditions
              */
 
-            spdlog::info("0");
             std::vector<nlohmann::json> result;
-            mongocxx::cursor api_cursor = api_collection.find({});
+            bsoncxx::document::view_or_value filter;
+            if (apiName)
+            {
+                filter = bsoncxx::builder::stream::document{} << "apiName" << apiName.value() << bsoncxx::builder::stream::finalize;
+            }
+            mongocxx::cursor api_cursor = api_collection.find(filter);
+
             for (auto api_doc : api_cursor)
             {
-                spdlog::info("1");
                 ServiceAPIDescription api;
 
                 std::string json_str = bsoncxx::to_json(api_doc);
@@ -49,10 +54,8 @@ namespace org::openapitools::server::api
                 to_json(json_obj, api);
 
                 result.push_back(json_obj);
-                spdlog::info("2");
             }
 
-            spdlog::info("3");
             res["serviceAPIDescriptions"] = result;
             response.send(Pistache::Http::Code::Ok, res.dump());
         }
