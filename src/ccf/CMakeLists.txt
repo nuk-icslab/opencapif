@@ -21,9 +21,9 @@ message("${CMAKE_PROJECT_NAME} version: ${CMAKE_PROJECT_VERSION} (${GIT_COMMIT_H
 # Check dependencies
 find_package(PkgConfig)
 find_package(Threads REQUIRED)
-find_package(spdlog REQUIRED)
-find_package(fmt REQUIRED)
-find_package(yaml-cpp REQUIRED)
+find_package(spdlog 1.10.0 REQUIRED)
+find_package(fmt 8.1.0 REQUIRED)
+find_package(yaml-cpp 0.7.0 REQUIRED)
 find_package(nlohmann_json 3.2.0 REQUIRED)
 pkg_check_modules(LIBMONGOCXX libmongocxx)
 pkg_check_modules(LIBBSONCXX libbsoncxx)
