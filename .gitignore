@@ -9,6 +9,7 @@ dist
 .openapi-generator
 .openapi-generator-ignore
 openapitools.json
+certs
 
 # Language-speficied file
 package-lock.json

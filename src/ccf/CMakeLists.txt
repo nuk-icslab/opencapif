@@ -43,6 +43,7 @@ file(GLOB_RECURSE CCF_SRCS
 
 add_executable(${PROJECT_NAME} ${CCF_SRCS})
 add_compile_definitions(__CCF_VERSION__="${CMAKE_PROJECT_VERSION}")
+add_compile_definitions(USE_SSL)
 target_link_libraries(${PROJECT_NAME} PUBLIC
                      Threads::Threads
                      spdlog::spdlog

@@ -99,6 +99,9 @@ int main()
     opts.maxRequestSize(PISTACHE_SERVER_MAX_REQUEST_SIZE);
     opts.maxResponseSize(PISTACHE_SERVER_MAX_RESPONSE_SIZE);
     httpEndpoint->init(opts);
+#ifdef USE_SSL
+    httpEndpoint->useSSL("./certs/server.crt", "./certs/server.key");
+#endif
 
     DefaultApiImpl DefaultApiserver(router, db);
     DefaultApiserver.init();
