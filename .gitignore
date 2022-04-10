@@ -8,3 +8,7 @@ external
 .openapi-generator
 .openapi-generator-ignore
 openapitools.json
+
+# Language-speficied file
+package-lock.json
+node_modules
