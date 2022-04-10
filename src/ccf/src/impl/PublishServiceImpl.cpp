@@ -26,13 +26,25 @@ namespace org::openapitools::server::api
     {
         response.headers().add<Pistache::Http::Header::AccessControlAllowOrigin>("*");
         response.headers().add<Pistache::Http::Header::ContentType>(MIME(Application, Json));
-        ServiceAPIDescription res;
-        nlohmann::json res_json;
+        nlohmann::json res_json = nlohmann::json::array();
 
-        res.setApiName("Not implemented");
+        mongocxx::cursor api_cursor = api_collection.find(
+            bsoncxx::builder::stream::document{} << "apfId" << apfId << bsoncxx::builder::stream::finalize);
+        for (auto api_doc : api_cursor)
+        {
+            ServiceAPIDescription api;
 
-        to_json(res_json, res);
-        response.send(Pistache::Http::Code::Not_Implemented, res_json.dump());
+            nlohmann::json json = util::bsoncxx2njson(api_doc);
+
+            from_json(json, api);
+            api.setApiId(api_doc["_id"].get_oid().value.to_string());
+            to_json(json, api);
+
+            res_json.push_back(json);
+        }
+
+        // to_json(res_json, res);
+        response.send(Pistache::Http::Code::Ok, res_json.dump());
     }
 
     void DefaultApiImpl::published_apis_v1_apf_id_service_apis_post(const std::string &apfId, const ServiceAPIDescription &serviceAPIDescription, Pistache::Http::ResponseWriter &response)
@@ -51,6 +63,7 @@ namespace org::openapitools::server::api
             spdlog::info("  apfId={}", apfId);
             spdlog::info("  data={}", json.dump());
 
+            json["apfId"] = apfId;
             bsoncxx::document::value document = util::njson2bsoncxx(json);
             auto result = api_collection.insert_one(std::move(document));
             api_id = result->inserted_id().get_oid().value.to_string();
