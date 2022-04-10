@@ -72,6 +72,7 @@ namespace org::openapitools::server::api
                                 const std::shared_ptr<mongocxx::database> &database);
         ~DefaultApiImpl() override = default;
 
+        void access_control_policy_v1_access_control_policy_list_service_api_id_get(const std::string &serviceApiId, const std::optional<std::string> &aefId, const std::optional<std::string> &apiInvokerId, const std::optional<std::string> &supportedFeatures, Pistache::Http::ResponseWriter &response);
         void api_invocation_logs_v1_aef_id_logs_post(const std::string &aefId, const InvocationLog &invocationLog, Pistache::Http::ResponseWriter &response);
         void api_invoker_management_v1_onboarded_invokers_onboarding_id_delete(const std::string &onboardingId, Pistache::Http::ResponseWriter &response);
         void api_invoker_management_v1_onboarded_invokers_onboarding_id_put(const std::string &onboardingId, const APIInvokerEnrolmentDetails &aPIInvokerEnrolmentDetails, Pistache::Http::ResponseWriter &response);
@@ -79,6 +80,9 @@ namespace org::openapitools::server::api
         void api_provider_management_v1_registrations_post(const APIProviderEnrolmentDetails &aPIProviderEnrolmentDetails, Pistache::Http::ResponseWriter &response);
         void api_provider_management_v1_registrations_registration_id_delete(const std::string &registrationId, Pistache::Http::ResponseWriter &response);
         void api_provider_management_v1_registrations_registration_id_put(const std::string &registrationId, const APIProviderEnrolmentDetails &aPIProviderEnrolmentDetails, Pistache::Http::ResponseWriter &response);
+        void capif_events_v1_subscriber_id_subscriptions_post(const std::string &subscriberId, const EventSubscription &eventSubscription, Pistache::Http::ResponseWriter &response);
+        void capif_events_v1_subscriber_id_subscriptions_subscription_id_delete(const std::string &subscriberId, const std::string &subscriptionId, Pistache::Http::ResponseWriter &response);
+        void capif_routing_info_v1_service_apis_service_api_id_get(const std::string &serviceApiId, const std::optional<std::string> &aefId, const std::optional<std::string> &suppFeat, Pistache::Http::ResponseWriter &response);
         void capif_security_v1_securities_security_id_token_post(const Pistache::Rest::Request &request, Pistache::Http::ResponseWriter &response);
         void capif_security_v1_trusted_invokers_api_invoker_id_delete(const std::string &apiInvokerId, Pistache::Http::ResponseWriter &response);
         void capif_security_v1_trusted_invokers_api_invoker_id_delete_post(const std::string &apiInvokerId, const SecurityNotification &securityNotification, Pistache::Http::ResponseWriter &response);
