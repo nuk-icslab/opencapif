@@ -10,6 +10,7 @@ namespace org::openapitools::server::api
         : DefaultApi(rtr), db(database)
     {
         api_collection = (*db)["apis"];
+        log_collection = (*db)["logs"];
     }
 
 }

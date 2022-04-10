@@ -16,7 +16,7 @@ generator_flag := --skip-validate-spec
 
 .PHONY: ccf-pistache, ccf-restbed, ccf-qhttpengine
 
-.POHNY: aef-restsdk, invkr-js, webui-js, clean
+.POHNY: aef-js, invkr-js, webui-js, clean
 
 all: ccf-pistache aef-restsdk invkr-js webui-js
 
@@ -45,6 +45,14 @@ aef-restsdk: $(spec_output_dir)/aef.yaml
 	openapi-generator-cli generate -o $(output_dir)/$@ \
 	  -g cpp-restsdk $(generator_flag) \
 	  -i $^
+
+aef-js: $(spec_output_dir)/aef.yaml
+	mkdir -p $(output_dir)/$@
+	openapi-generator-cli generate -o $(output_dir)/$@ \
+	  -g javascript $(generator_flag) \
+	  --additional-properties=projectName=capif-arf-client \
+	  -i $^
+	cd $(output_dir)/$@ && npm install && npm run build
 
 invkr-js: $(spec_output_dir)/invkr.yaml
 	mkdir -p $(output_dir)/$@

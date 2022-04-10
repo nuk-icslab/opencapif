@@ -1,5 +1,6 @@
 #include "DefaultApiImpl.h"
 #include "util.h"
+#include "config.h"
 #include <fmt/core.h>
 #include <spdlog/spdlog.h>
 
@@ -19,8 +20,6 @@ namespace org::openapitools::server::api
 {
 
     using namespace org::openapitools::server::model;
-
-    const std::string API_ROOT = "http://localhost:8080";
 
     void DefaultApiImpl::published_apis_v1_apf_id_service_apis_get(const std::string &apfId, Pistache::Http::ResponseWriter &response)
     {
@@ -72,7 +71,7 @@ namespace org::openapitools::server::api
             res.setApiName(serviceAPIDescription.getApiName());
             res.setApiId(api_id);
             new_resource_location = fmt::format(
-                "{}/published-apis/v1/{}/service-apis/{}", API_ROOT, apfId, api_id);
+                "{}/published-apis/v1/{}/service-apis/{}", config::API_ROOT, apfId, api_id);
 
             to_json(json, res);
 

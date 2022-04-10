@@ -1,5 +1,6 @@
 #include "DefaultApiImpl.h"
 #include "util.h"
+#include "config.h"
 #include <fmt/core.h>
 #include <spdlog/spdlog.h>
 
@@ -19,8 +20,6 @@ namespace org::openapitools::server::api
 {
 
     using namespace org::openapitools::server::model;
-
-    const std::string API_ROOT = "http://localhost:8080";
 
     void DefaultApiImpl::api_invoker_management_v1_onboarded_invokers_onboarding_id_delete(const std::string &onboardingId, Pistache::Http::ResponseWriter &response)
     {
@@ -48,7 +47,7 @@ namespace org::openapitools::server::api
         res.setNotificationDestination(aPIInvokerEnrolmentDetails.getNotificationDestination());
         res.setApiInvokerId(invkr_id);
         new_resource_location = fmt::format(
-            "{}/api-invoker-management/v1/onboardedInvokers/{}", API_ROOT, invkr_id);
+            "{}/api-invoker-management/v1/onboardedInvokers/{}", config::API_ROOT, invkr_id);
 
         to_json(json, res);
 

@@ -1,4 +1,5 @@
 #include "DefaultApiImpl.h"
+#include "util.h"
 #include <fmt/core.h>
 #include <spdlog/spdlog.h>
 
@@ -46,8 +47,7 @@ namespace org::openapitools::server::api
             {
                 ServiceAPIDescription api;
 
-                std::string json_str = bsoncxx::to_json(api_doc);
-                nlohmann::json json_obj = nlohmann::json::parse(json_str);
+                nlohmann::json json_obj = util::bsoncxx2njson(api_doc);
 
                 from_json(json_obj, api);
                 api.setApiId(api_doc["_id"].get_oid().value.to_string());

@@ -88,6 +88,7 @@ namespace org::openapitools::server::api
     private:
         std::shared_ptr<mongocxx::database> db;
         mongocxx::collection api_collection;
+        mongocxx::collection log_collection;
     };
 
 } // namespace org::openapitools::server::api
