@@ -19,4 +19,9 @@ describe('CAPIF API Invoker', function () {
             await PromiseSucced(capifInvk.onboardInvoker())
         });
     });
+    describe('discoverApi()', function () {
+        it('should return AEF information fetched from CCF', async function () {
+            await PromiseSucced(capifInvk.discoverApi("TestAPI"))
+        });
+    });
 });
