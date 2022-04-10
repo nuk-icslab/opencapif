@@ -53,6 +53,15 @@
       "dispute": {
         "prefix": "security"
       }
+    },
+    {
+      "inputFile": "./TS29222_CAPIF_Auditing_API.yaml",
+      "pathModification": {
+        "prepend": "/logs/v1"
+      },
+      "dispute": {
+        "prefix": "auditing"
+      }
     }
   ],
   "output": "./output.yaml"

@@ -23,10 +23,4 @@ namespace org::openapitools::server::api
         api_collection = (*db)["apis"];
     }
 
-    
-    
-    
-    
-    
-    
 }

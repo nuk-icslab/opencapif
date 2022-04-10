@@ -8,13 +8,14 @@ A general API invocation framework based-on 3GPP Common API Framework (CAPIF)
 - Publish and discover service API
 - Logging service API invocation
 - Management of service API and API invokers
+- Topology hiding
 
 ## Entities
 
 - Standalone CAPIF Core Function(CCF) executable written in C++
 - Language-agnostic API Exposing Function(AEF) based-on Nginx module 
 - WebUI of API Publishing Function(APF) and API Management Function(AMF)
-- API-invoker agent library across multiple programming language
+- API-invoker library across multiple programming language
     - Currently support JavaScript
 
 ## Dependency
