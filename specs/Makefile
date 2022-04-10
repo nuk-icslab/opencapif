@@ -8,50 +8,59 @@ yamls := $(wildcard $(spec_src_dir)/TS*.yaml)
 capif_yamls := $(wildcard $(spec_src_dir)/TS29222_CAPIF*.yaml)
 capif_htmls := $(patsubst $(spec_src_dir)/%.yaml, $(doc_output_dir)/%.html, $(capif_yamls))
 
-merged_api_version := h20
+merged_api_version := 17.2.0
 
 generator_flag := --skip-validate-spec
 
-.PHONY: all, docs, ccf-pistache, client-cpp, client-js, clean
+.PHONY: all, docs, clean
+
+.PHONY: ccf-pistache, ccf-restbed, ccf-qhttpengine
+
+.POHNY: aef-restsdk, invkr-js, webui-js, clean
+
 all: ccf-pistache aef-restsdk invkr-js webui-js
 
 docs: $(capif_htmls)
 
 ccf-pistache: $(spec_output_dir)/ccf.yaml
-	mkdir -p $(output_dir)/ccf/pistache
-	openapi-generator-cli generate -o $(output_dir)/ccf/pistache \
+	mkdir -p $(output_dir)/$@
+	openapi-generator-cli generate -o $(output_dir)/$@ \
 	  -g cpp-pistache-server $(generator_flag) \
 	  -i $^
 
 ccf-restbed: $(spec_output_dir)/ccf.yaml
-	mkdir -p $(output_dir)/ccf/restbed
-	openapi-generator-cli generate -o $(output_dir)/ccf/restbed \
+	mkdir -p $(output_dir)/$@
+	openapi-generator-cli generate -o $(output_dir)/$@ \
 	  -g cpp-restbed-server $(generator_flag) \
 	  -i $^
 
 ccf-qhttpengine: $(spec_output_dir)/ccf.yaml
-	mkdir -p $(output_dir)/ccf/qhttpengine
-	openapi-generator-cli generate -o $(output_dir)/ccf/qhttpengine \
+	mkdir -p $(output_dir)/$@
+	openapi-generator-cli generate -o $(output_dir)/$@ \
 	  -g cpp-qt-qhttpengine-server $(generator_flag) \
 	  -i $^
 
 aef-restsdk: $(spec_output_dir)/aef.yaml
-	mkdir -p $(output_dir)/aef/restsdk
-	openapi-generator-cli generate -o $(output_dir)/aef/restsdk \
+	mkdir -p $(output_dir)/$@
+	openapi-generator-cli generate -o $(output_dir)/$@ \
 	  -g cpp-restsdk $(generator_flag) \
 	  -i $^
 
 invkr-js: $(spec_output_dir)/invkr.yaml
-	mkdir -p $(output_dir)/invkr/js
-	openapi-generator-cli generate -o $(output_dir)/invkr/js \
+	mkdir -p $(output_dir)/$@
+	openapi-generator-cli generate -o $(output_dir)/$@ \
 	  -g javascript $(generator_flag) \
+	  --additional-properties=projectName=capif-invkr-client \
 	  -i $^
+	cd $(output_dir)/$@ && npm install && npm run build
 
 webui-js: $(spec_output_dir)/webui.yaml
-	mkdir -p $(output_dir)/webui/js
-	openapi-generator-cli generate -o $(output_dir)/webui/js \
+	mkdir -p $(output_dir)/$@
+	openapi-generator-cli generate -o $(output_dir)/$@ \
 	  -g javascript $(generator_flag) \
+	  --additional-properties=projectName=capif-webui-client \
 	  -i $^
+	cd $(output_dir)/$@ && npm install && npm run build
 
 $(spec_output_dir)/%.yaml: openapi-merge-%.json $(yamls)
 	mkdir -p $(@D)

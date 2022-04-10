@@ -5,7 +5,7 @@ project(ccf LANGUAGES CXX VERSION 0.1.1)
 
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED True)
-set(OPENAPI_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../lib/openapi/ccf/pistache)
+set(OPENAPI_SRC_DIR ${CMAKE_CURRENT_SOURCE_DIR}/../../lib/openapi/ccf-pistache)
 
 #set(CMAKE_VERBOSE_MAKEFILE ON)
 
