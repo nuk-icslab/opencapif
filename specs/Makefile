@@ -1,4 +1,4 @@
-spec_src_dir := $(abspath 29222-capif_stage3-h20)
+spec_src_dir := $(abspath 29222-capif_stage3-h40)
 output_dir := $(abspath ../lib/openapi)
 spec_output_dir := $(abspath ./build/compiled_spec)
 doc_output_dir := $(abspath ./build/docs)
@@ -8,7 +8,7 @@ yamls := $(wildcard $(spec_src_dir)/TS*.yaml)
 capif_yamls := $(wildcard $(spec_src_dir)/TS29222_CAPIF*.yaml)
 capif_htmls := $(patsubst $(spec_src_dir)/%.yaml, $(doc_output_dir)/%.html, $(capif_yamls))
 
-merged_api_version := 17.2.0
+merged_api_version := 17.4.0
 
 generator_flag := --skip-validate-spec
 
