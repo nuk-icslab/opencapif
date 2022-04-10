@@ -77,7 +77,7 @@ namespace org::openapitools::server::api
             to_json(json, res);
 
             response.headers().add<Pistache::Http::Header::Location>(new_resource_location);
-            response.send(Pistache::Http::Code::Ok, json.dump());
+            response.send(Pistache::Http::Code::Created, json.dump());
         }
         catch (mongocxx::exception &e)
         {
