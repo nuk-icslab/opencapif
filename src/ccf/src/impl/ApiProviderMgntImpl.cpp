@@ -33,14 +33,14 @@ namespace org::openapitools::server::api
     using namespace org::openapitools::server::model;
     void DefaultApiImpl::api_provider_management_v1_registrations_post(const APIProviderEnrolmentDetails &aPIProviderEnrolmentDetails, Pistache::Http::ResponseWriter &response)
     {
-        response.send(Pistache::Http::Code::Ok, "Do some magic\n");
+        response.send(Pistache::Http::Code::Not_Implemented, "Not Implemented\n");
     }
     void DefaultApiImpl::api_provider_management_v1_registrations_registration_id_delete(const std::string &registrationId, Pistache::Http::ResponseWriter &response)
     {
-        response.send(Pistache::Http::Code::Ok, "Do some magic\n");
+        response.send(Pistache::Http::Code::Not_Implemented, "Not Implemented\n");
     }
     void DefaultApiImpl::api_provider_management_v1_registrations_registration_id_put(const std::string &registrationId, const APIProviderEnrolmentDetails &aPIProviderEnrolmentDetails, Pistache::Http::ResponseWriter &response)
     {
-        response.send(Pistache::Http::Code::Ok, "Do some magic\n");
+        response.send(Pistache::Http::Code::Not_Implemented, "Not Implemented\n");
     }
 }

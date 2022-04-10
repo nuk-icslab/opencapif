@@ -33,6 +33,6 @@ namespace org::openapitools::server::api
     using namespace org::openapitools::server::model;
     void DefaultApiImpl::api_invocation_logs_v1_aef_id_logs_post(const std::string &aefId, const InvocationLog &invocationLog, Pistache::Http::ResponseWriter &response)
     {
-        response.send(Pistache::Http::Code::Ok, "Do some magic\n");
+        response.send(Pistache::Http::Code::Not_Implemented, "Not Implemented\n");
     }
 }

@@ -33,14 +33,14 @@ namespace org::openapitools::server::api
     using namespace org::openapitools::server::model;
     void DefaultApiImpl::api_invoker_management_v1_onboarded_invokers_onboarding_id_delete(const std::string &onboardingId, Pistache::Http::ResponseWriter &response)
     {
-        response.send(Pistache::Http::Code::Ok, "Do some magic\n");
+        response.send(Pistache::Http::Code::Not_Implemented, "Not Implemented\n");
     }
     void DefaultApiImpl::api_invoker_management_v1_onboarded_invokers_onboarding_id_put(const std::string &onboardingId, const APIInvokerEnrolmentDetails &aPIInvokerEnrolmentDetails, Pistache::Http::ResponseWriter &response)
     {
-        response.send(Pistache::Http::Code::Ok, "Do some magic\n");
+        response.send(Pistache::Http::Code::Not_Implemented, "Not Implemented\n");
     }
     void DefaultApiImpl::api_invoker_management_v1_onboarded_invokers_post(const APIInvokerEnrolmentDetails &aPIInvokerEnrolmentDetails, Pistache::Http::ResponseWriter &response)
     {
-        response.send(Pistache::Http::Code::Ok, "Do some magic\n");
+        response.send(Pistache::Http::Code::Not_Implemented, "Not Implemented\n");
     }
 }
