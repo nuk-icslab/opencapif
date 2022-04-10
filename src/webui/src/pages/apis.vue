@@ -3,7 +3,7 @@
         <div class="input-group mb-3">
             <span class="input-group-text">APF ID</span>
             <input type="text" class="form-control" v-model="apf_id" />
-            <button class="btn btn-outline-secondary" type="button" @click="queryApf">Query</button>
+            <button class="btn btn-primary" type="button" @click="queryApf">Query</button>
         </div>
         <table class="table table-striped">
             <thead>
@@ -27,13 +27,16 @@
         </table>
         <router-link
             to="/new"
-            class="btn btn-success mx-auto d-block"
+            class="btn btn-outline-secondary mx-auto d-block"
             style="width: 13rem;"
         >Publish New API</router-link>
     </div>
 </template>
 
 <script>
+const { ccfUrl } = require('../../config/ccf.js');
+const capifWebUiClient = require('capif-webui-client');
+const { ApiClient, DefaultApi, ServiceAPIDescription } = capifWebUiClient;
 export default {
     name: "apis",
     data() {
@@ -44,11 +47,8 @@ export default {
     },
     methods: {
         queryApf: function () {
-            const capifWebUiClient = require('capif-webui-client');
-            const { ApiClient, DefaultApi, ServiceAPIDescription } = capifWebUiClient;
-            const my_api_client = new ApiClient("http://127.0.0.1:8080");
+            const my_api_client = new ApiClient(ccfUrl);
             const my_default_api = new DefaultApi(my_api_client);
-            let apf_id = this.apf_id;
             var callback = (error, data) => {
                 if (error) {
                     console.error(error);
@@ -66,9 +66,7 @@ export default {
                             }
                         } else {
                             let aefProfile = api['aefProfiles'][0];
-                            let versions = aefProfile["versions"].map(ver => {
-                                ver["apiVersion"]
-                            })
+                            let versions = aefProfile["versions"].map(v => v["apiVersion"]);
                             return {
                                 name: api['apiName'],
                                 aef_id: aefProfile["aefId"],
@@ -79,7 +77,7 @@ export default {
                     })
                 }
             };
-            my_default_api.publishedApisV1ApfIdServiceApisGet(apf_id, callback);
+            my_default_api.publishedApisV1ApfIdServiceApisGet(this.apf_id, callback);
         }
     },
 };
