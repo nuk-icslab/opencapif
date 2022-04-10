@@ -13,7 +13,7 @@ merged_api_version := h20
 generator_flag := --skip-validate-spec
 
 .PHONY: all, docs, ccf-pistache, client-cpp, client-js, clean
-all: ccf-pistache client-cpp client-js
+all: ccf-pistache aef-restsdk invkr-js webui-js
 
 docs: $(capif_htmls)
 
@@ -35,15 +35,21 @@ ccf-qhttpengine: $(spec_output_dir)/ccf.yaml
 	  -g cpp-qt-qhttpengine-server $(generator_flag) \
 	  -i $^
 
-client-cpp: $(spec_output_dir)/capif.yaml
-	mkdir -p $(output_dir)/client/cpp
-	openapi-generator-cli generate -o $(output_dir)/client/cpp \
+aef-restsdk: $(spec_output_dir)/aef.yaml
+	mkdir -p $(output_dir)/aef/restsdk
+	openapi-generator-cli generate -o $(output_dir)/aef/restsdk \
 	  -g cpp-restsdk $(generator_flag) \
 	  -i $^
 
-client-js: $(spec_output_dir)/capif.yaml
-	mkdir -p $(output_dir)/client/js
-	openapi-generator-cli generate -o $(output_dir)/client/js \
+invkr-js: $(spec_output_dir)/invkr.yaml
+	mkdir -p $(output_dir)/invkr/js
+	openapi-generator-cli generate -o $(output_dir)/invkr/js \
+	  -g javascript $(generator_flag) \
+	  -i $^
+
+webui-js: $(spec_output_dir)/webui.yaml
+	mkdir -p $(output_dir)/webui/js
+	openapi-generator-cli generate -o $(output_dir)/webui/js \
 	  -g javascript $(generator_flag) \
 	  -i $^
 

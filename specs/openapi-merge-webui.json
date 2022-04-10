@@ -1,0 +1,50 @@
+{
+  "inputs": [
+    {
+      "inputFile": "./TS29222_CAPIF_API_Provider_Management_API.yaml",
+      "pathModification": {
+        "prepend": "/api-provider-management/v1"
+      },
+      "dispute": {
+        "prefix": "providerMgnt"
+      }
+    },
+    {
+      "inputFile": "./TS29222_CAPIF_Auditing_API.yaml",
+      "pathModification": {
+        "prepend": "/logs/v1"
+      },
+      "dispute": {
+        "prefix": "auditing"
+      }
+    },
+    {
+      "inputFile": "./TS29222_CAPIF_Discover_Service_API.yaml",
+      "pathModification": {
+        "prepend": "/service-apis/v1"
+      },
+      "dispute": {
+        "prefix": "discoverService"
+      }
+    },
+    {
+      "inputFile": "./TS29222_CAPIF_Events_API.yaml",
+      "pathModification": {
+        "prepend": "/capif-events/v1"
+      },
+      "dispute": {
+        "prefix": "events"
+      }
+    },
+    {
+      "inputFile": "./TS29222_CAPIF_Publish_Service_API.yaml",
+      "pathModification": {
+        "prepend": "/published-apis/v1"
+      },
+      "dispute": {
+        "prefix": "publishService"
+      }
+    }
+  ],
+  "output": "./output.yaml"
+}

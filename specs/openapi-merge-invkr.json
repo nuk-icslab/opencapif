@@ -1,0 +1,41 @@
+{
+  "inputs": [
+    {
+      "inputFile": "./TS29222_CAPIF_API_Invoker_Management_API.yaml",
+      "pathModification": {
+        "prepend": "/api-invoker-management/v1"
+      },
+      "dispute": {
+        "prefix": "invokerMgnt"
+      }
+    },
+    {
+      "inputFile": "./TS29222_CAPIF_Discover_Service_API.yaml",
+      "pathModification": {
+        "prepend": "/service-apis/v1"
+      },
+      "dispute": {
+        "prefix": "discoverService"
+      }
+    },
+    {
+      "inputFile": "./TS29222_CAPIF_Events_API.yaml",
+      "pathModification": {
+        "prepend": "/capif-events/v1"
+      },
+      "dispute": {
+        "prefix": "events"
+      }
+    },
+    {
+      "inputFile": "./TS29222_CAPIF_Security_API.yaml",
+      "pathModification": {
+        "prepend": "/capif-security/v1"
+      },
+      "dispute": {
+        "prefix": "security"
+      }
+    }
+  ],
+  "output": "./output.yaml"
+}

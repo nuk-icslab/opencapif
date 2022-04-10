@@ -1,0 +1,50 @@
+{
+  "inputs": [
+    {
+      "inputFile": "./TS29222_CAPIF_Access_Control_Policy_API.yaml",
+      "pathModification": {
+        "prepend": "/access-control-policy/v1"
+      },
+      "dispute": {
+        "prefix": "accessControlPolicy"
+      }
+    },
+    {
+      "inputFile": "./TS29222_CAPIF_Events_API.yaml",
+      "pathModification": {
+        "prepend": "/capif-events/v1"
+      },
+      "dispute": {
+        "prefix": "events"
+      }
+    },
+    {
+      "inputFile": "./TS29222_CAPIF_Logging_API_Invocation_API.yaml",
+      "pathModification": {
+        "prepend": "/api-invocation-logs/v1"
+      },
+      "dispute": {
+        "prefix": "invocationLog"
+      }
+    },
+    {
+      "inputFile": "./TS29222_CAPIF_Routing_Info_API.yaml",
+      "pathModification": {
+        "prepend": "/capif-routing-info/v1"
+      },
+      "dispute": {
+        "prefix": "routingInfo"
+      }
+    },
+    {
+      "inputFile": "./TS29222_CAPIF_Security_API.yaml",
+      "pathModification": {
+        "prepend": "/capif-security/v1"
+      },
+      "dispute": {
+        "prefix": "security"
+      }
+    }
+  ],
+  "output": "./output.yaml"
+}
