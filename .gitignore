@@ -2,6 +2,7 @@
 build
 lib/openapi
 external
+dist
 
 # Excluding the configuration file
 .vscode

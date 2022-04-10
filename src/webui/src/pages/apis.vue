@@ -1,11 +1,10 @@
 <template>
     <div>
         <div class="input-group mb-3">
-            <span class="input-group-text">APF ID</span>
-            <input type="text" class="form-control" v-model="apf_id" />
+            <input type="text" class="form-control" v-model="apf_id" placeholder="APF ID" />
             <button class="btn btn-primary" type="button" @click="queryApf">Query</button>
         </div>
-        <table class="table table-striped">
+        <table class="table table-striped table-responsive">
             <thead>
                 <tr>
                     <th scope="col">#</th>
