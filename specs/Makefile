@@ -16,9 +16,9 @@ generator_flag := --skip-validate-spec
 
 .PHONY: ccf-pistache, ccf-restbed, ccf-qhttpengine
 
-.POHNY: aef-js, invkr-js, webui-js, clean
+.POHNY: aef-restsdk, aef-js, invkr-js, webui-js, clean
 
-all: ccf-pistache aef-restsdk invkr-js webui-js
+all: ccf-pistache aef-js invkr-js webui-js
 
 docs: $(capif_htmls)
 
@@ -50,7 +50,7 @@ aef-js: $(spec_output_dir)/aef.yaml
 	mkdir -p $(output_dir)/$@
 	openapi-generator-cli generate -o $(output_dir)/$@ \
 	  -g javascript $(generator_flag) \
-	  --additional-properties=projectName=capif-arf-client \
+	  --additional-properties=projectName=capif-aef-client \
 	  -i $^
 	cd $(output_dir)/$@ && npm install && npm run build
 
