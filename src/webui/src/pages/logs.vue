@@ -77,7 +77,7 @@ export default {
               version: log['apiVersion'],
               resource: log['resourceName'],
               operation: log['operation'],
-              resulr: log['result']
+              result: log['result']
             }
           })
         }
