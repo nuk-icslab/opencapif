@@ -18,7 +18,7 @@
           <th scope="col">API Name</th>
           <th scope="col">Version</th>
           <th scope="col">Resource</th>
-          <!-- <th scope="col">Operation</th> -->
+          <th scope="col">Operation</th>
           <th scope="col">Result</th>
         </tr>
       </thead>
@@ -28,7 +28,7 @@
           <td>{{ log.api_name }}</td>
           <td>{{ log.version }}</td>
           <td>{{ log.resource }}</td>
-          <!-- <td>{{ log.operation }}</td> -->
+          <td>{{ log.operation }}</td>
           <td>{{ log.result }}</td>
         </tr>
       </tbody>
