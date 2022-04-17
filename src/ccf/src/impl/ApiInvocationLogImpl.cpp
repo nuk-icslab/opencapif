@@ -47,7 +47,7 @@ namespace org::openapitools::server::api
             bsoncxx::document::value document = util::njson2bsoncxx(json);
             auto result = log_collection.insert_one(std::move(document));
             log_id = result->inserted_id().get_oid().value.to_string();
-            spdlog::info("New API inserted to database. logId={}", log_id);
+            spdlog::info("New log inserted to database. logId={}", log_id);
 
             new_resource_location = fmt::format(
                 "{}/api-invocation-logs/v1/{}/logs/{}", config::API_ROOT, aefId, log_id);
@@ -60,7 +60,7 @@ namespace org::openapitools::server::api
         catch (mongocxx::exception &e)
         {
             spdlog::error("When inserting to database: {}", e.what());
-            spdlog::error("No new API will be inserted.");
+            spdlog::error("No new log will be inserted.");
             response.send(Pistache::Http::Code::Internal_Server_Error, "{'status':500}");
         }
     }
