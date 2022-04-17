@@ -68,9 +68,7 @@ export default {
           console.error(error);
         } else {
           this.logs = data['logs'].map(log => {
-            let time = new Date(log['invocationTime']);
-            console.log(typeof (time));
-            //console.log(time.toISOString());
+            let time = new Date(log['invocationTime']).toISOString();
             return {
               time,
               api_name: log['apiName'],
