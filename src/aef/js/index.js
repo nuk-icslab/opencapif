@@ -22,11 +22,17 @@ function capifAef(aefId, apiId = "0000", protocol = "HTTP_1_1") {
 
         // Prepare argument of logging
         let url = req.originalUrl.split('/');
-        let apiName = url[0];
-        let apiVersion = url[1];
-        let resourceName = url.slice(2).join('/');
+        let apiName = url[1] || "";
+        let apiVersion = url[2] || "";
+        let resourceName = url.slice(3).join('/');
         let operation = req.method;
         let invocationTime = new Date().toISOString();
+
+        // Early skip non-API invocation
+        if (apiName === "" || apiVersion === "") {
+            next();
+            return;
+        }
 
         // [TODO] Get invoker ID by authentication
         let apiInvokerId = "default-invoker";
